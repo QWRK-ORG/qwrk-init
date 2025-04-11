@@ -86,9 +86,11 @@ export function Breadcrumbs({
             <ol className='flex items-center space-x-2'>
                 {items.map((item, index) => {
                     const isLast = index === items.length - 1
+                    // Create a unique key using index and label
+                    const uniqueKey = `breadcrumb-${index}-${item.label.replace(/\s+/g, '-').toLowerCase()}`
 
                     return (
-                        <li key={item.href} className='flex items-center'>
+                        <li key={uniqueKey} className='flex items-center'>
                             <BreadcrumbItem
                                 href={!isLast ? item.href : undefined}
                                 isCurrent={isLast}

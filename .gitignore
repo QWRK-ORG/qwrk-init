@@ -73,3 +73,5 @@ Thumbs.db
 
 .pnpm-store
 .cursorignore
+
+windsurf_deployment.yaml
