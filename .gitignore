@@ -75,3 +75,6 @@ Thumbs.db
 .cursorignore
 
 windsurf_deployment.yaml
+
+/playwright-report/
+/test-results/

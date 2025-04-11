@@ -3,7 +3,7 @@ pre-commit:
   commands:
     lint:
       glob: "*.{js,ts,jsx,tsx}"
-      run: pnpm lint:fix
+      run: biome check --write
       stage_fixed: true
     format:
       glob: "*.{js,ts,jsx,tsx}"
@@ -15,7 +15,7 @@ pre-commit:
       # TypeScript requires checking the whole project context
       # We can't easily check only staged files while maintaining type relationships
     test:
-      run: pnpm test
+      run: pnpm test:ci
 
 # Add a manual hook that can be run with `npx lefthook run fix-all`
 fix-all:
