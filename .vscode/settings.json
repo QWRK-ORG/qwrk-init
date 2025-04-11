@@ -1,0 +1,31 @@
+{
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.addMissingImports.ts": "explicit",
+        "source.organizeImports.biome": "explicit",
+        "source.removeUnused.ts": "explicit"
+    },
+    "editor.defaultFormatter": "biomejs.biome",
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "typescript.validate.enable": true,
+    "javascript.validate.enable": true,
+    "typescript.reportStyleChecksAsWarnings": true,
+    "prettier.enable": false
+}

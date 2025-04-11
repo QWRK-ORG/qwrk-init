@@ -1,0 +1,27 @@
+{
+    "extends": "@workspace/typescript-config/nextjs.json",
+    "compilerOptions": {
+        "types": ["vitest/globals"],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"],
+            "@workspace/ui/*": ["../../services/ui/src/*"],
+            "@workspace/gql-client": ["../../services/gql-client/src"],
+            "@workspace/gql-client/*": ["../../services/gql-client/src/*"]
+        },
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ]
+    },
+    "include": [
+        "next-env.d.ts",
+        "next.config.mjs",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        // ".next/types/**/*.ts"
+        ".next/types/**/*.ts"
+    ],
+    "exclude": ["node_modules", ".next/*", ".turbo/*", ".vscode/*"]
+}
