@@ -6,31 +6,85 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Dialog component for creating accessible modal dialogs
+ * Built on Radix UI Dialog primitive for accessibility
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Dialog>
+ *   <DialogTrigger>Open Dialog</DialogTrigger>
+ *   <DialogContent>
+ *     <DialogHeader>
+ *       <DialogTitle>Dialog Title</DialogTitle>
+ *       <DialogDescription>This is a description of the dialog.</DialogDescription>
+ *     </DialogHeader>
+ *     <div>Dialog content goes here</div>
+ *     <DialogFooter>
+ *       <Button>Save changes</Button>
+ *     </DialogFooter>
+ *   </DialogContent>
+ * </Dialog>
+ * ```
+ */
 function Dialog({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot='dialog' {...props} />
 }
 
+/**
+ * DialogTrigger component
+ * Element that opens the dialog when clicked/activated
+ *
+ * @example
+ * ```tsx
+ * <DialogTrigger>
+ *   <Button>Open Dialog</Button>
+ * </DialogTrigger>
+ * ```
+ */
 function DialogTrigger({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
   return <DialogPrimitive.Trigger data-slot='dialog-trigger' {...props} />
 }
 
+/**
+ * DialogPortal component
+ * Portals dialog content outside the DOM hierarchy for proper stacking
+ */
 function DialogPortal({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Portal>) {
   return <DialogPrimitive.Portal data-slot='dialog-portal' {...props} />
 }
 
+/**
+ * DialogClose component
+ * Button that closes the dialog when clicked/activated
+ *
+ * @example
+ * ```tsx
+ * <DialogClose>
+ *   <Button variant="outline">Cancel</Button>
+ * </DialogClose>
+ * ```
+ */
 function DialogClose({
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return <DialogPrimitive.Close data-slot='dialog-close' {...props} />
 }
 
+/**
+ * DialogOverlay component
+ * Backdrop that covers the viewport when dialog is open
+ */
 function DialogOverlay({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
@@ -46,8 +100,37 @@ function DialogOverlay({
   )
 }
 
+/**
+ * DialogContent component
+ * Container for dialog content with built-in animations and close button
+ *
+ * @example
+ * ```tsx
+ * <DialogContent>
+ *   <DialogHeader>
+ *     <DialogTitle>Edit Profile</DialogTitle>
+ *     <DialogDescription>Make changes to your profile here.</DialogDescription>
+ *   </DialogHeader>
+ *   <div className="grid gap-4 py-4">
+ *     <div className="grid grid-cols-4 items-center gap-4">
+ *       <Label htmlFor="name" className="text-right">Name</Label>
+ *       <Input id="name" defaultValue="John Doe" className="col-span-3" />
+ *     </div>
+ *   </div>
+ *   <DialogFooter>
+ *     <Button type="submit">Save changes</Button>
+ *   </DialogFooter>
+ * </DialogContent>
+ * ```
+ */
 function DialogContent({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Dialog content
+   */
   children,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content>) {
@@ -72,7 +155,25 @@ function DialogContent({
   )
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * DialogHeader component
+ * Container for dialog title and description with appropriate styling
+ *
+ * @example
+ * ```tsx
+ * <DialogHeader>
+ *   <DialogTitle>Dialog Title</DialogTitle>
+ *   <DialogDescription>Dialog description goes here.</DialogDescription>
+ * </DialogHeader>
+ * ```
+ */
+function DialogHeader({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='dialog-header'
@@ -82,7 +183,25 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function DialogFooter({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * DialogFooter component
+ * Container for dialog actions with appropriate styling
+ *
+ * @example
+ * ```tsx
+ * <DialogFooter>
+ *   <Button type="button" variant="outline">Cancel</Button>
+ *   <Button type="submit">Continue</Button>
+ * </DialogFooter>
+ * ```
+ */
+function DialogFooter({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='dialog-footer'
@@ -95,7 +214,19 @@ function DialogFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * DialogTitle component
+ * Title for the dialog with appropriate styling
+ *
+ * @example
+ * ```tsx
+ * <DialogTitle>Create a new account</DialogTitle>
+ * ```
+ */
 function DialogTitle({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Title>) {
@@ -108,7 +239,22 @@ function DialogTitle({
   )
 }
 
+/**
+ * DialogDescription component
+ * Description text for the dialog with appropriate styling
+ *
+ * @example
+ * ```tsx
+ * <DialogDescription>
+ *   This action cannot be undone. This will permanently delete your account
+ *   and remove your data from our servers.
+ * </DialogDescription>
+ * ```
+ */
 function DialogDescription({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Description>) {

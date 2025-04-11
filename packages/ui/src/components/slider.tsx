@@ -5,11 +5,53 @@ import * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Slider component for selecting a value from a range
+ * Built on Radix UI Slider primitive for accessibility
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Slider defaultValue={[50]} max={100} step={1} />
+ * ```
+ *
+ * @example Range slider
+ * ```tsx
+ * <Slider defaultValue={[20, 80]} max={100} step={1} />
+ * ```
+ *
+ * @example With controlled value
+ * ```tsx
+ * <Slider
+ *   value={[currentValue]}
+ *   onValueChange={(values) => setCurrentValue(values[0])}
+ *   max={100}
+ * />
+ * ```
+ *
+ * @example Vertical orientation
+ * ```tsx
+ * <Slider orientation="vertical" defaultValue={[50]} />
+ * ```
+ */
 function Slider({
   className,
+  /**
+   * Initial value(s) of the slider
+   */
   defaultValue,
+  /**
+   * Current value(s) of the slider (controlled)
+   */
   value,
+  /**
+   * Minimum value of the slider
+   * @default 0
+   */
   min = 0,
+  /**
+   * Maximum value of the slider
+   * @default 100
+   */
   max = 100,
   ...props
 }: React.ComponentProps<typeof SliderPrimitive.Root>) {

@@ -32,18 +32,56 @@ const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
+/**
+ * Props for the Sidebar context to manage sidebar state
+ */
 type SidebarContextProps = {
+  /**
+   * Current visual state of the sidebar
+   */
   state: "expanded" | "collapsed"
+  /**
+   * Whether the sidebar is open on desktop
+   */
   open: boolean
+  /**
+   * Function to set the open state on desktop
+   */
   setOpen: (open: boolean) => void
+  /**
+   * Whether the sidebar is open on mobile
+   */
   openMobile: boolean
+  /**
+   * Function to set the open state on mobile
+   */
   setOpenMobile: (open: boolean) => void
+  /**
+   * Whether the current viewport is mobile
+   */
   isMobile: boolean
+  /**
+   * Function to toggle the sidebar open/closed
+   */
   toggleSidebar: () => void
 }
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null)
 
+/**
+ * Hook to access sidebar state and controls from any component
+ *
+ * @example
+ * ```tsx
+ * function SidebarButton() {
+ *   const { toggleSidebar } = useSidebar()
+ *   return <button onClick={toggleSidebar}>Toggle Sidebar</button>
+ * }
+ * ```
+ *
+ * @returns The sidebar context object
+ * @throws Error when used outside of a SidebarProvider
+ */
 function useSidebar() {
   const context = React.useContext(SidebarContext)
   if (!context) {
@@ -53,17 +91,58 @@ function useSidebar() {
   return context
 }
 
+/**
+ * Provider component for sidebar state management
+ * Must wrap any components that need access to sidebar state
+ *
+ * @example Basic usage
+ * ```tsx
+ * <SidebarProvider>
+ *   <YourApp />
+ * </SidebarProvider>
+ * ```
+ *
+ * @example Controlled state
+ * ```tsx
+ * <SidebarProvider
+ *   open={sidebarOpen}
+ *   onOpenChange={setSidebarOpen}
+ * >
+ *   <YourApp />
+ * </SidebarProvider>
+ * ```
+ */
 function SidebarProvider({
+  /**
+   * Whether the sidebar should be open by default
+   * @default true
+   */
   defaultOpen = true,
+  /**
+   * Controlled open state
+   */
   open: openProp,
+  /**
+   * Callback when open state changes
+   */
   onOpenChange: setOpenProp,
   className,
   style,
   children,
   ...props
 }: React.ComponentProps<"div"> & {
+  /**
+   * Whether the sidebar should be open by default
+   * @default true
+   */
   defaultOpen?: boolean
+  /**
+   * Controlled open state
+   */
   open?: boolean
+  /**
+   * Callback when open state changes
+   */
   onOpenChange?: (open: boolean) => void
 }) {
   const isMobile = useIsMobile()
@@ -151,16 +230,76 @@ function SidebarProvider({
   )
 }
 
+/**
+ * Sidebar component for application navigation and content organization
+ * Provides responsive behavior for desktop and mobile views
+ *
+ * @example Basic usage
+ * ```tsx
+ * <SidebarProvider>
+ *   <Sidebar>
+ *     <SidebarHeader>My App</SidebarHeader>
+ *     <SidebarContent>
+ *       <SidebarMenu>
+ *         <SidebarMenuItem>
+ *           <SidebarMenuButton>Dashboard</SidebarMenuButton>
+ *         </SidebarMenuItem>
+ *       </SidebarMenu>
+ *     </SidebarContent>
+ *   </Sidebar>
+ *   <SidebarInset>
+ *     <YourAppContent />
+ *   </SidebarInset>
+ * </SidebarProvider>
+ * ```
+ *
+ * @example With floating variant and right side
+ * ```tsx
+ * <Sidebar
+ *   variant="floating"
+ *   side="right"
+ *   collapsible="icon"
+ * >
+ * </Sidebar>
+ * ```
+ */
 function Sidebar({
+  /**
+   * Which side of the screen to display the sidebar
+   * @default "left"
+   */
   side = "left",
+  /**
+   * Visual style of the sidebar
+   * - sidebar: Standard full-height sidebar with border
+   * - floating: Elevated sidebar with shadow and border
+   * - inset: Sidebar that is part of the layout without border
+   * @default "sidebar"
+   */
   variant = "sidebar",
+  /**
+   * How the sidebar behaves when collapsed
+   * - offcanvas: Slides off screen when collapsed
+   * - icon: Collapses to icon-only view
+   * - none: Cannot be collapsed
+   * @default "offcanvas"
+   */
   collapsible = "offcanvas",
   className,
   children,
   ...props
 }: React.ComponentProps<"div"> & {
+  /**
+   * Which side of the screen to display the sidebar
+   */
   side?: "left" | "right"
+  /**
+   * Visual style of the sidebar
+   */
   variant?: "sidebar" | "floating" | "inset"
+  /**
+   * How the sidebar behaves when collapsed
+   */
   collapsible?: "offcanvas" | "icon" | "none"
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
@@ -253,8 +392,28 @@ function Sidebar({
   )
 }
 
+/**
+ * Button component that toggles the sidebar open/closed
+ * Automatically toggles the appropriate state based on viewport size
+ *
+ * @example
+ * ```tsx
+ * <SidebarTrigger />
+ * ```
+ *
+ * @example With custom styling
+ * ```tsx
+ * <SidebarTrigger className="my-custom-class" />
+ * ```
+ */
 function SidebarTrigger({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Optional click handler that runs before toggling the sidebar
+   */
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -279,7 +438,22 @@ function SidebarTrigger({
   )
 }
 
-function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
+/**
+ * SidebarRail component that provides a drag handle at the sidebar edge
+ * Allows user to expand/collapse the sidebar by clicking on the rail
+ *
+ * @example
+ * ```tsx
+ * <SidebarRail />
+ * ```
+ */
+function SidebarRail({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -304,7 +478,27 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   )
 }
 
-function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
+/**
+ * SidebarInset component that serves as the main content area alongside the sidebar
+ * Automatically adjusts layout based on sidebar state
+ *
+ * @example
+ * ```tsx
+ * <SidebarProvider>
+ *   <Sidebar>...</Sidebar>
+ *   <SidebarInset>
+ *     <YourAppContent />
+ *   </SidebarInset>
+ * </SidebarProvider>
+ * ```
+ */
+function SidebarInset({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"main">) {
   return (
     <main
       data-slot='sidebar-inset'
@@ -318,7 +512,19 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   )
 }
 
+/**
+ * SidebarInput component styled to match the sidebar design
+ * Commonly used for search functionality within the sidebar
+ *
+ * @example
+ * ```tsx
+ * <SidebarInput placeholder="Search..." />
+ * ```
+ */
 function SidebarInput({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof Input>) {
@@ -332,7 +538,27 @@ function SidebarInput({
   )
 }
 
-function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * SidebarHeader component for the top section of a sidebar
+ * Commonly used for logo, app name, or primary navigation elements
+ *
+ * @example
+ * ```tsx
+ * <SidebarHeader>
+ *   <div className="flex items-center gap-2">
+ *     <Logo />
+ *     <h1 className="text-lg font-semibold">My App</h1>
+ *   </div>
+ * </SidebarHeader>
+ * ```
+ */
+function SidebarHeader({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='sidebar-header'
@@ -343,7 +569,30 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * SidebarFooter component for the bottom section of a sidebar
+ * Commonly used for user profile, logout button, or secondary actions
+ *
+ * @example
+ * ```tsx
+ * <SidebarFooter>
+ *   <div className="flex items-center gap-2">
+ *     <Avatar src="/user-avatar.jpg" />
+ *     <div className="flex flex-col">
+ *       <span className="text-sm font-medium">Jane Doe</span>
+ *       <span className="text-xs text-muted-foreground">jane@example.com</span>
+ *     </div>
+ *   </div>
+ * </SidebarFooter>
+ * ```
+ */
+function SidebarFooter({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='sidebar-footer'
@@ -354,7 +603,23 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * SidebarSeparator component for creating visual dividers in the sidebar
+ * Styled specifically for the sidebar context
+ *
+ * @example
+ * ```tsx
+ * <SidebarContent>
+ *   <SidebarMenu>...</SidebarMenu>
+ *   <SidebarSeparator />
+ *   <SidebarMenu>...</SidebarMenu>
+ * </SidebarContent>
+ * ```
+ */
 function SidebarSeparator({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof Separator>) {
@@ -368,7 +633,31 @@ function SidebarSeparator({
   )
 }
 
-function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * SidebarContent component for the main content area of the sidebar
+ * Contains the primary navigation elements and other sidebar content
+ *
+ * @example
+ * ```tsx
+ * <SidebarContent>
+ *   <SidebarMenu>
+ *     <SidebarMenuItem>
+ *       <SidebarMenuButton>
+ *         <HomeIcon />
+ *         <span>Dashboard</span>
+ *       </SidebarMenuButton>
+ *     </SidebarMenuItem>
+ *   </SidebarMenu>
+ * </SidebarContent>
+ * ```
+ */
+function SidebarContent({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='sidebar-content'
@@ -382,7 +671,31 @@ function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * SidebarGroup component for organizing related sidebar items into sections
+ * Typically contains a label, optional action button, and content
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroup>
+ *   <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+ *   <SidebarGroupContent>
+ *     <SidebarMenu>
+ *       <SidebarMenuItem>
+ *         <SidebarMenuButton>Dashboard</SidebarMenuButton>
+ *       </SidebarMenuItem>
+ *     </SidebarMenu>
+ *   </SidebarGroupContent>
+ * </SidebarGroup>
+ * ```
+ */
+function SidebarGroup({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='sidebar-group'
@@ -393,8 +706,39 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * SidebarGroupLabel component for labeling a group of sidebar items
+ * Used as a header for a section within the sidebar
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroup>
+ *   <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+ *   <SidebarGroupContent>
+ *     <SidebarMenu>...</SidebarMenu>
+ *   </SidebarGroupContent>
+ * </SidebarGroup>
+ * ```
+ *
+ * @example With custom element
+ * ```tsx
+ * <SidebarGroup>
+ *   <SidebarGroupLabel asChild>
+ *     <h3>Main Menu</h3>
+ *   </SidebarGroupLabel>
+ *   <SidebarGroupContent>...</SidebarGroupContent>
+ * </SidebarGroup>
+ * ```
+ */
 function SidebarGroupLabel({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Whether to use a custom element via Radix Slot
+   * @default false
+   */
   asChild = false,
   ...props
 }: React.ComponentProps<"div"> & { asChild?: boolean }) {
@@ -414,8 +758,30 @@ function SidebarGroupLabel({
   )
 }
 
+/**
+ * SidebarGroupAction component for providing actions related to a group
+ * Usually displayed as a small button at the top-right of a group
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroup>
+ *   <SidebarGroupLabel>Projects</SidebarGroupLabel>
+ *   <SidebarGroupAction>
+ *     <PlusIcon />
+ *   </SidebarGroupAction>
+ *   <SidebarGroupContent>...</SidebarGroupContent>
+ * </SidebarGroup>
+ * ```
+ */
 function SidebarGroupAction({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Whether to use a custom element via Radix Slot
+   * @default false
+   */
   asChild = false,
   ...props
 }: React.ComponentProps<"button"> & { asChild?: boolean }) {
@@ -437,7 +803,25 @@ function SidebarGroupAction({
   )
 }
 
+/**
+ * SidebarGroupContent component for containing navigation items within a group
+ * Usually contains a SidebarMenu component
+ *
+ * @example
+ * ```tsx
+ * <SidebarGroupContent>
+ *   <SidebarMenu>
+ *     <SidebarMenuItem>
+ *       <SidebarMenuButton>Dashboard</SidebarMenuButton>
+ *     </SidebarMenuItem>
+ *   </SidebarMenu>
+ * </SidebarGroupContent>
+ * ```
+ */
 function SidebarGroupContent({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -451,7 +835,29 @@ function SidebarGroupContent({
   )
 }
 
-function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
+/**
+ * SidebarMenu component for grouping related navigation items
+ * Contains SidebarMenuItem components
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenu>
+ *   <SidebarMenuItem>
+ *     <SidebarMenuButton>Dashboard</SidebarMenuButton>
+ *   </SidebarMenuItem>
+ *   <SidebarMenuItem>
+ *     <SidebarMenuButton>Settings</SidebarMenuButton>
+ *   </SidebarMenuItem>
+ * </SidebarMenu>
+ * ```
+ */
+function SidebarMenu({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"ul">) {
   return (
     <ul
       data-slot='sidebar-menu'
@@ -462,7 +868,39 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   )
 }
 
-function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
+/**
+ * SidebarMenuItem component representing a single navigation item
+ * Usually contains a SidebarMenuButton and optionally a SidebarMenuAction
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <HomeIcon />
+ *     <span>Dashboard</span>
+ *   </SidebarMenuButton>
+ * </SidebarMenuItem>
+ * ```
+ *
+ * @example With action button
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <span>Settings</span>
+ *   </SidebarMenuButton>
+ *   <SidebarMenuAction>
+ *     <MoreHorizontalIcon />
+ *   </SidebarMenuAction>
+ * </SidebarMenuItem>
+ * ```
+ */
+function SidebarMenuItem({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"li">) {
   return (
     <li
       data-slot='sidebar-menu-item'
@@ -495,12 +933,68 @@ const sidebarMenuButtonVariants = cva(
   }
 )
 
+/**
+ * SidebarMenuButton component for clickable navigation items within the sidebar
+ * Supports different visual styles, sizes, and tooltip display in collapsed state
+ *
+ * @example Basic usage
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <HomeIcon />
+ *     <span>Dashboard</span>
+ *   </SidebarMenuButton>
+ * </SidebarMenuItem>
+ * ```
+ *
+ * @example With tooltip for collapsed state
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton tooltip="Settings">
+ *     <SettingsIcon />
+ *     <span>Settings</span>
+ *   </SidebarMenuButton>
+ * </SidebarMenuItem>
+ * ```
+ *
+ * @example With active state
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton isActive>
+ *     <UserIcon />
+ *     <span>Profile</span>
+ *   </SidebarMenuButton>
+ * </SidebarMenuItem>
+ * ```
+ */
 function SidebarMenuButton({
+  /**
+   * Whether to use a custom element via Radix Slot
+   * @default false
+   */
   asChild = false,
+  /**
+   * Whether this menu item is currently active/selected
+   * @default false
+   */
   isActive = false,
+  /**
+   * Visual style variant
+   * @default "default"
+   */
   variant = "default",
+  /**
+   * Size variant of the button
+   * @default "default"
+   */
   size = "default",
+  /**
+   * Tooltip text or Tooltip props to show when sidebar is collapsed
+   */
   tooltip,
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"button"> & {
@@ -545,9 +1039,44 @@ function SidebarMenuButton({
   )
 }
 
+/**
+ * SidebarMenuAction component for adding a contextual action button to a menu item
+ * Positioned at the right side of the menu item, can be shown on hover
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>Documents</SidebarMenuButton>
+ *   <SidebarMenuAction>
+ *     <PlusIcon />
+ *   </SidebarMenuAction>
+ * </SidebarMenuItem>
+ * ```
+ *
+ * @example With hover behavior
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>Projects</SidebarMenuButton>
+ *   <SidebarMenuAction showOnHover>
+ *     <MoreHorizontalIcon />
+ *   </SidebarMenuAction>
+ * </SidebarMenuItem>
+ * ```
+ */
 function SidebarMenuAction({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Whether to use a custom element via Radix Slot
+   * @default false
+   */
   asChild = false,
+  /**
+   * Whether to only show the action on hover
+   * @default false
+   */
   showOnHover = false,
   ...props
 }: React.ComponentProps<"button"> & {
@@ -577,7 +1106,25 @@ function SidebarMenuAction({
   )
 }
 
+/**
+ * SidebarMenuBadge component for displaying notification counts or status indicators
+ * Positioned at the right side of a menu item
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <InboxIcon />
+ *     <span>Messages</span>
+ *   </SidebarMenuButton>
+ *   <SidebarMenuBadge>5</SidebarMenuBadge>
+ * </SidebarMenuItem>
+ * ```
+ */
 function SidebarMenuBadge({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -599,8 +1146,36 @@ function SidebarMenuBadge({
   )
 }
 
+/**
+ * SidebarMenuSkeleton component for displaying loading states in the sidebar
+ * Shows animated skeleton placeholders for menu items that are still loading
+ *
+ * @example Basic usage
+ * ```tsx
+ * <SidebarMenu>
+ *   <SidebarMenuSkeleton />
+ *   <SidebarMenuSkeleton />
+ *   <SidebarMenuSkeleton />
+ * </SidebarMenu>
+ * ```
+ *
+ * @example With icon placeholder
+ * ```tsx
+ * <SidebarMenu>
+ *   <SidebarMenuSkeleton showIcon />
+ *   <SidebarMenuSkeleton showIcon />
+ * </SidebarMenu>
+ * ```
+ */
 function SidebarMenuSkeleton({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Whether to show an icon placeholder on the left side
+   * @default false
+   */
   showIcon = false,
   ...props
 }: React.ComponentProps<"div"> & {
@@ -637,7 +1212,35 @@ function SidebarMenuSkeleton({
   )
 }
 
-function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
+/**
+ * SidebarMenuSub component for creating nested submenus within a sidebar menu
+ * Displayed as an indented list with a vertical border
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuItem>
+ *   <SidebarMenuButton>
+ *     <FolderIcon />
+ *     <span>Projects</span>
+ *   </SidebarMenuButton>
+ *   <SidebarMenuSub>
+ *     <SidebarMenuSubItem>
+ *       <SidebarMenuSubButton>Project 1</SidebarMenuSubButton>
+ *     </SidebarMenuSubItem>
+ *     <SidebarMenuSubItem>
+ *       <SidebarMenuSubButton>Project 2</SidebarMenuSubButton>
+ *     </SidebarMenuSubItem>
+ *   </SidebarMenuSub>
+ * </SidebarMenuItem>
+ * ```
+ */
+function SidebarMenuSub({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"ul">) {
   return (
     <ul
       data-slot='sidebar-menu-sub'
@@ -652,7 +1255,23 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   )
 }
 
+/**
+ * SidebarMenuSubItem component for individual items within a submenu
+ * Used as a container for SidebarMenuSubButton
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuSub>
+ *   <SidebarMenuSubItem>
+ *     <SidebarMenuSubButton>Nested Item</SidebarMenuSubButton>
+ *   </SidebarMenuSubItem>
+ * </SidebarMenuSub>
+ * ```
+ */
 function SidebarMenuSubItem({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"li">) {
@@ -666,10 +1285,49 @@ function SidebarMenuSubItem({
   )
 }
 
+/**
+ * SidebarMenuSubButton component for submenu navigation items
+ * Used within SidebarMenuSubItem components for nested navigation
+ *
+ * @example
+ * ```tsx
+ * <SidebarMenuSub>
+ *   <SidebarMenuSubItem>
+ *     <SidebarMenuSubButton>
+ *       <span>Sub Item 1</span>
+ *     </SidebarMenuSubButton>
+ *   </SidebarMenuSubItem>
+ * </SidebarMenuSub>
+ * ```
+ *
+ * @example With active state and smaller size
+ * ```tsx
+ * <SidebarMenuSubItem>
+ *   <SidebarMenuSubButton isActive size="sm">
+ *     <span>Settings</span>
+ *   </SidebarMenuSubButton>
+ * </SidebarMenuSubItem>
+ * ```
+ */
 function SidebarMenuSubButton({
+  /**
+   * Whether to use a custom element via Radix Slot
+   * @default false
+   */
   asChild = false,
+  /**
+   * Size variant of the button
+   * @default "md"
+   */
   size = "md",
+  /**
+   * Whether this menu item is currently active/selected
+   * @default false
+   */
   isActive = false,
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"a"> & {

@@ -2,7 +2,40 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
+/**
+ * Textarea component for multi-line text input
+ * Supports all standard HTML textarea attributes
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Textarea placeholder="Type your message here" />
+ * ```
+ *
+ * @example With rows and maxLength
+ * ```tsx
+ * <Textarea
+ *   placeholder="Enter a description"
+ *   rows={5}
+ *   maxLength={500}
+ * />
+ * ```
+ *
+ * @example With form validation
+ * ```tsx
+ * <Textarea
+ *   aria-invalid={errors.message ? true : undefined}
+ *   placeholder="Message"
+ *   required
+ * />
+ * ```
+ */
+function Textarea({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"textarea">) {
   return (
     <textarea
       data-slot='textarea'

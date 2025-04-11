@@ -6,11 +6,50 @@ import * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * One-Time Password input component for verification codes, PIN codes, etc.
+ * Built on the input-otp library for accessibility and ease of use.
+ *
+ * @example Basic usage
+ * ```tsx
+ * <InputOTP maxLength={6}>
+ *   <InputOTPGroup>
+ *     <InputOTPSlot index={0} />
+ *     <InputOTPSlot index={1} />
+ *     <InputOTPSlot index={2} />
+ *     <InputOTPSeparator />
+ *     <InputOTPSlot index={3} />
+ *     <InputOTPSlot index={4} />
+ *     <InputOTPSlot index={5} />
+ *   </InputOTPGroup>
+ * </InputOTP>
+ * ```
+ *
+ * @example With validation
+ * ```tsx
+ * <InputOTP maxLength={4} value="1234" disabled>
+ *   <InputOTPGroup>
+ *     {Array.from({ length: 4 }).map((_, i) => (
+ *       <InputOTPSlot key={i} index={i} />
+ *     ))}
+ *   </InputOTPGroup>
+ * </InputOTP>
+ * ```
+ */
 function InputOTP({
+  /**
+   * Additional CSS class names for the input
+   */
   className,
+  /**
+   * Additional CSS class names for the container
+   */
   containerClassName,
   ...props
 }: React.ComponentProps<typeof OTPInput> & {
+  /**
+   * Optional class name for the container element
+   */
   containerClassName?: string
 }) {
   return (
@@ -26,7 +65,26 @@ function InputOTP({
   )
 }
 
-function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * Container component for InputOTPSlot elements
+ * Arranges OTP input slots in a horizontal layout
+ *
+ * @example
+ * ```tsx
+ * <InputOTPGroup>
+ *   <InputOTPSlot index={0} />
+ *   <InputOTPSlot index={1} />
+ *   <InputOTPSlot index={2} />
+ * </InputOTPGroup>
+ * ```
+ */
+function InputOTPGroup({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='input-otp-group'
@@ -36,11 +94,30 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * Individual input slot for a single character in the OTP
+ * Must be used within InputOTPGroup and connected to an InputOTP
+ *
+ * @example
+ * ```tsx
+ * <InputOTPSlot index={0} />
+ * ```
+ */
 function InputOTPSlot({
+  /**
+   * Zero-based index position of this slot within the OTP
+   */
   index,
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"div"> & {
+  /**
+   * The position of this slot in the OTP input (0-based)
+   * Must match the position in the OTP sequence
+   */
   index: number
 }) {
   const inputOTPContext = React.useContext(OTPInputContext)
@@ -66,7 +143,25 @@ function InputOTPSlot({
   )
 }
 
+/**
+ * Visual separator between OTP input slots
+ * Renders a minus icon by default
+ *
+ * @example
+ * ```tsx
+ * <InputOTPGroup>
+ *   <InputOTPSlot index={0} />
+ *   <InputOTPSlot index={1} />
+ *   <InputOTPSeparator />
+ *   <InputOTPSlot index={2} />
+ *   <InputOTPSlot index={3} />
+ * </InputOTPGroup>
+ * ```
+ */
 function InputOTPSeparator({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"div">) {

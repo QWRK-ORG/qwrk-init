@@ -2,7 +2,29 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * Card container for grouping related content
+ * Provides visual structure with border and shadow
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Card>
+ *   <CardHeader>
+ *     <CardTitle>Card Title</CardTitle>
+ *     <CardDescription>Card Description</CardDescription>
+ *   </CardHeader>
+ *   <CardContent>Main content goes here</CardContent>
+ *   <CardFooter>Footer content</CardFooter>
+ * </Card>
+ * ```
+ */
+function Card({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='card'
@@ -15,7 +37,28 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * Header section for a Card component
+ * Contains title, description, and optional action elements
+ *
+ * @example
+ * ```tsx
+ * <CardHeader>
+ *   <CardTitle>Account Settings</CardTitle>
+ *   <CardDescription>Manage your account preferences</CardDescription>
+ *   <CardAction>
+ *     <Button size="sm">Edit</Button>
+ *   </CardAction>
+ * </CardHeader>
+ * ```
+ */
+function CardHeader({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='card-header'
@@ -28,7 +71,22 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * Title component for Card header
+ * Typically used for the main heading of a card
+ *
+ * @example
+ * ```tsx
+ * <CardTitle>Account Settings</CardTitle>
+ * ```
+ */
+function CardTitle({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='card-title'
@@ -38,7 +96,22 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * Description component for Card header
+ * Provides supporting text or details below the card title
+ *
+ * @example
+ * ```tsx
+ * <CardDescription>Manage your account settings and preferences</CardDescription>
+ * ```
+ */
+function CardDescription({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='card-description'
@@ -48,7 +121,25 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * Action component for Card header
+ * Container for buttons or interactive elements in the header
+ * Automatically positioned at the right side of the header
+ *
+ * @example
+ * ```tsx
+ * <CardAction>
+ *   <Button size="sm" variant="outline">Edit</Button>
+ * </CardAction>
+ * ```
+ */
+function CardAction({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='card-action'
@@ -61,7 +152,25 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * Content container for Card component
+ * Contains the main content of the card
+ *
+ * @example
+ * ```tsx
+ * <CardContent>
+ *   <p>This is the main content area of the card.</p>
+ *   <form>...</form>
+ * </CardContent>
+ * ```
+ */
+function CardContent({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='card-content'
@@ -71,7 +180,25 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
+/**
+ * Footer component for Card
+ * Used for actions or additional information at the bottom of the card
+ *
+ * @example
+ * ```tsx
+ * <CardFooter>
+ *   <Button>Save changes</Button>
+ *   <Button variant="outline">Cancel</Button>
+ * </CardFooter>
+ * ```
+ */
+function CardFooter({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot='card-footer'

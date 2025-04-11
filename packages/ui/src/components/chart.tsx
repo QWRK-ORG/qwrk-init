@@ -8,22 +8,73 @@ import { cn } from "@workspace/ui/lib/utils"
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
 
+/**
+ * Configuration for chart styling and labels.
+ * Defines how each data series in the chart should be styled and labeled.
+ *
+ * @example
+ * ```tsx
+ * const config: ChartConfig = {
+ *   data1: {
+ *     label: "Revenue",
+ *     color: "#3b82f6"
+ *   },
+ *   data2: {
+ *     label: "Expenses",
+ *     theme: { light: "#ef4444", dark: "#f87171" }
+ *   }
+ * }
+ * ```
+ */
 export type ChartConfig = {
   [k in string]: {
+    /**
+     * Display label for this data series
+     */
     label?: React.ReactNode
+    /**
+     * Icon component to display next to the label
+     */
     icon?: React.ComponentType
   } & (
-    | { color?: string; theme?: never }
-    | { color?: never; theme: Record<keyof typeof THEMES, string> }
+    | {
+        /**
+         * Static color for all themes
+         */
+        color?: string
+        theme?: never
+      }
+    | {
+        color?: never
+        /**
+         * Theme-specific colors (light and dark mode)
+         */
+        theme: Record<keyof typeof THEMES, string>
+      }
   )
 }
 
+/**
+ * Internal context type for chart configuration
+ * @internal
+ */
 type ChartContextProps = {
+  /**
+   * Configuration object for the chart
+   */
   config: ChartConfig
 }
 
 const ChartContext = React.createContext<ChartContextProps | null>(null)
 
+/**
+ * Hook to access chart configuration from context
+ * Must be used within a ChartContainer component
+ *
+ * @returns Chart configuration context
+ * @throws Error when used outside of a ChartContainer
+ * @internal
+ */
 function useChart() {
   const context = React.useContext(ChartContext)
 
@@ -34,6 +85,25 @@ function useChart() {
   return context
 }
 
+/**
+ * Main container component for charts
+ * Provides configuration context and styling for nested chart components
+ *
+ * @example
+ * ```tsx
+ * <ChartContainer config={{
+ *   data1: { label: "Revenue", color: "#3b82f6" },
+ *   data2: { label: "Expenses", color: "#ef4444" }
+ * }}>
+ *   <AreaChart data={data}>
+ *     <XAxis dataKey="month" />
+ *     <YAxis />
+ *     <Area dataKey="data1" />
+ *     <Area dataKey="data2" />
+ *   </AreaChart>
+ * </ChartContainer>
+ * ```
+ */
 function ChartContainer({
   id,
   className,
@@ -41,7 +111,13 @@ function ChartContainer({
   config,
   ...props
 }: React.ComponentProps<"div"> & {
+  /**
+   * Configuration object defining styles and labels for chart data series
+   */
   config: ChartConfig
+  /**
+   * Recharts chart component
+   */
   children: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
   >["children"]
@@ -69,8 +145,25 @@ function ChartContainer({
   )
 }
 
-// Create a CSS variable string for chart styling
-const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
+/**
+ * Internal component that generates CSS variables for chart styling
+ * Handles theme switching between light and dark mode
+ *
+ * @internal
+ */
+const ChartStyle = ({
+  id,
+  config
+}: {
+  /**
+   * Unique chart identifier
+   */
+  id: string
+  /**
+   * Chart configuration object
+   */
+  config: ChartConfig
+}) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme || config.color
   )
@@ -78,7 +171,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   if (!colorConfig.length) {
     return null
   }
-  
+
   // Create CSS variables for each theme
   const cssVariables = React.useMemo(() => {
     return Object.entries(THEMES).map(([theme, prefix]) => {
@@ -91,7 +184,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
         })
         .filter(Boolean)
         .join(" ")
-        
+
       // Return a className and its associated styles
       return {
         selector: `${prefix} [data-chart=${id}]`,
@@ -99,32 +192,60 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
       }
     })
   }, [id, colorConfig])
-  
+
   // Use useEffect to add/remove styles from the document
   React.useEffect(() => {
     // Create a stylesheet
     const stylesheet = document.createElement("style")
     stylesheet.type = "text/css"
-    
+
     // Add all theme styles
     const cssRules = cssVariables
       .map(({ selector, styles }) => `${selector} { ${styles} }`)
       .join("\n")
-    
+
     stylesheet.textContent = cssRules
     document.head.appendChild(stylesheet)
-    
+
     // Cleanup function to remove the stylesheet when component unmounts
     return () => {
       document.head.removeChild(stylesheet)
     }
   }, [cssVariables])
-  
+
   return null
 }
 
+/**
+ * Tooltip component for displaying chart data on hover
+ * Re-export of Recharts Tooltip component
+ */
 const ChartTooltip = RechartsPrimitive.Tooltip
 
+/**
+ * Customizable tooltip content component for displaying chart data on hover
+ *
+ * @example
+ * ```tsx
+ * <LineChart data={data}>
+ *   <Line dataKey="value" />
+ *   <ChartTooltip content={<ChartTooltipContent />} />
+ * </LineChart>
+ * ```
+ *
+ * @example With custom formatting
+ * ```tsx
+ * <LineChart data={data}>
+ *   <Line dataKey="value" />
+ *   <ChartTooltip content={
+ *     <ChartTooltipContent
+ *       formatter={(value) => `$${value}`}
+ *       indicator="line"
+ *     />
+ *   } />
+ * </LineChart>
+ * ```
+ */
 function ChartTooltipContent({
   active,
   payload,
@@ -141,10 +262,28 @@ function ChartTooltipContent({
   labelKey
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
   React.ComponentProps<"div"> & {
+    /**
+     * Whether to hide the tooltip label
+     * @default false
+     */
     hideLabel?: boolean
+    /**
+     * Whether to hide the color indicator
+     * @default false
+     */
     hideIndicator?: boolean
+    /**
+     * Style of the color indicator
+     * @default "dot"
+     */
     indicator?: "line" | "dot" | "dashed"
+    /**
+     * Key to use for accessing the item name
+     */
     nameKey?: string
+    /**
+     * Key to use for accessing the label
+     */
     labelKey?: string
   }) {
   const { config } = useChart()
@@ -269,8 +408,33 @@ function ChartTooltipContent({
   )
 }
 
+/**
+ * Legend component for displaying chart series information
+ * Re-export of Recharts Legend component
+ */
 const ChartLegend = RechartsPrimitive.Legend
 
+/**
+ * Customizable legend content component for displaying chart series information
+ *
+ * @example
+ * ```tsx
+ * <LineChart data={data}>
+ *   <Line dataKey="value" />
+ *   <ChartLegend content={<ChartLegendContent />} />
+ * </LineChart>
+ * ```
+ *
+ * @example With custom alignment
+ * ```tsx
+ * <LineChart data={data}>
+ *   <Line dataKey="value" />
+ *   <ChartLegend
+ *     content={<ChartLegendContent verticalAlign="top" />}
+ *   />
+ * </LineChart>
+ * ```
+ */
 function ChartLegendContent({
   className,
   hideIcon = false,
@@ -279,7 +443,14 @@ function ChartLegendContent({
   nameKey
 }: React.ComponentProps<"div"> &
   Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+    /**
+     * Whether to hide the color icon
+     * @default false
+     */
     hideIcon?: boolean
+    /**
+     * Key to use for accessing the item name
+     */
     nameKey?: string
   }) {
   const { config } = useChart()
@@ -325,7 +496,15 @@ function ChartLegendContent({
   )
 }
 
-// Helper to extract item config from a payload.
+/**
+ * Helper to extract item configuration from a payload object
+ *
+ * @param config - Chart configuration object
+ * @param payload - Payload object from Recharts
+ * @param key - Key to lookup in the payload
+ * @returns The configuration for the specified key, or undefined if not found
+ * @internal
+ */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,

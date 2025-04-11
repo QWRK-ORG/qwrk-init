@@ -5,7 +5,37 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Label component for form controls
+ * Built on Radix UI Label primitive for accessibility
+ *
+ * @example Basic usage with input
+ * ```tsx
+ * <div className="space-y-2">
+ *   <Label htmlFor="email">Email</Label>
+ *   <Input id="email" type="email" />
+ * </div>
+ * ```
+ *
+ * @example With required indicator
+ * ```tsx
+ * <Label htmlFor="password">
+ *   Password <span className="text-destructive">*</span>
+ * </Label>
+ * ```
+ *
+ * @example With checkbox
+ * ```tsx
+ * <div className="flex items-center space-x-2">
+ *   <Checkbox id="terms" />
+ *   <Label htmlFor="terms">Accept terms and conditions</Label>
+ * </div>
+ * ```
+ */
 function Label({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof LabelPrimitive.Root>) {

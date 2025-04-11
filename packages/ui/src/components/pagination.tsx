@@ -8,7 +8,40 @@ import type * as React from "react"
 import { type Button, buttonVariants } from "@workspace/ui/components/button"
 import { cn } from "@workspace/ui/lib/utils"
 
-function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+/**
+ * Main pagination container component that wraps pagination content
+ * Handles navigation between pages of content
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Pagination>
+ *   <PaginationContent>
+ *     <PaginationItem>
+ *       <PaginationPrevious href="#" />
+ *     </PaginationItem>
+ *     <PaginationItem>
+ *       <PaginationLink href="#">1</PaginationLink>
+ *     </PaginationItem>
+ *     <PaginationItem>
+ *       <PaginationLink href="#" isActive>2</PaginationLink>
+ *     </PaginationItem>
+ *     <PaginationItem>
+ *       <PaginationLink href="#">3</PaginationLink>
+ *     </PaginationItem>
+ *     <PaginationItem>
+ *       <PaginationNext href="#" />
+ *     </PaginationItem>
+ *   </PaginationContent>
+ * </Pagination>
+ * ```
+ */
+function Pagination({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  ...props
+}: React.ComponentProps<"nav">) {
   return (
     <nav
       aria-label='pagination'
@@ -19,7 +52,14 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   )
 }
 
+/**
+ * Container for pagination items
+ * Arranges pagination items in a horizontal layout
+ */
 function PaginationContent({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"ul">) {
@@ -32,18 +72,49 @@ function PaginationContent({
   )
 }
 
+/**
+ * Individual item container in the pagination list
+ * Wraps links, buttons, or ellipsis elements
+ */
 function PaginationItem({ ...props }: React.ComponentProps<"li">) {
   return <li data-slot='pagination-item' {...props} />
 }
 
+/**
+ * Props for the PaginationLink component
+ */
 type PaginationLinkProps = {
+  /**
+   * Whether this link represents the current page
+   * When true, applies a different visual style and sets aria-current="page"
+   */
   isActive?: boolean
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<"a">
 
+/**
+ * Link component for pagination items
+ * Renders as a button-styled anchor element
+ *
+ * @example
+ * ```tsx
+ * <PaginationLink href="/page/1">1</PaginationLink>
+ * <PaginationLink href="/page/2" isActive>2</PaginationLink>
+ * ```
+ */
 function PaginationLink({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Whether this link represents the current page
+   */
   isActive,
+  /**
+   * Size of the link button
+   * @default "icon"
+   */
   size = "icon",
   ...props
 }: PaginationLinkProps) {
@@ -64,7 +135,19 @@ function PaginationLink({
   )
 }
 
+/**
+ * Previous page navigation link
+ * Includes a left chevron icon and "Previous" text (on larger screens)
+ *
+ * @example
+ * ```tsx
+ * <PaginationPrevious href="/page/1" />
+ * ```
+ */
 function PaginationPrevious({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
@@ -81,7 +164,19 @@ function PaginationPrevious({
   )
 }
 
+/**
+ * Next page navigation link
+ * Includes a right chevron icon and "Next" text (on larger screens)
+ *
+ * @example
+ * ```tsx
+ * <PaginationNext href="/page/3" />
+ * ```
+ */
 function PaginationNext({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
@@ -98,7 +193,27 @@ function PaginationNext({
   )
 }
 
+/**
+ * Ellipsis indicator for skipped page numbers
+ * Visually indicates that there are more pages between adjacent page links
+ *
+ * @example
+ * ```tsx
+ * <PaginationItem>
+ *   <PaginationLink href="/page/1">1</PaginationLink>
+ * </PaginationItem>
+ * <PaginationItem>
+ *   <PaginationEllipsis />
+ * </PaginationItem>
+ * <PaginationItem>
+ *   <PaginationLink href="/page/10">10</PaginationLink>
+ * </PaginationItem>
+ * ```
+ */
 function PaginationEllipsis({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<"span">) {

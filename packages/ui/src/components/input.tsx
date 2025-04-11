@@ -2,7 +2,44 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+/**
+ * Standard input component with consistent styling
+ * Supports all standard HTML input attributes
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Input placeholder="Email address" />
+ * ```
+ *
+ * @example With type and required
+ * ```tsx
+ * <Input
+ *   type="email"
+ *   placeholder="Enter your email"
+ *   required
+ * />
+ * ```
+ *
+ * @example With error state
+ * ```tsx
+ * <Input
+ *   type="password"
+ *   aria-invalid={errors.password ? true : undefined}
+ * />
+ * ```
+ */
+function Input({
+  /**
+   * Additional CSS class names
+   */
+  className,
+  /**
+   * HTML input type attribute
+   * @default "text"
+   */
+  type,
+  ...props
+}: React.ComponentProps<"input">) {
   return (
     <input
       type={type}

@@ -5,7 +5,35 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Switch component for toggling between enabled/disabled states
+ * Built on Radix UI Switch primitive for accessibility
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Switch aria-label="Toggle feature" />
+ * ```
+ *
+ * @example With label
+ * ```tsx
+ * <div className="flex items-center space-x-2">
+ *   <Switch id="airplane-mode" />
+ *   <label htmlFor="airplane-mode">Airplane Mode</label>
+ * </div>
+ * ```
+ *
+ * @example Controlled state
+ * ```tsx
+ * <Switch
+ *   checked={enabled}
+ *   onCheckedChange={setEnabled}
+ * />
+ * ```
+ */
 function Switch({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof SwitchPrimitive.Root>) {

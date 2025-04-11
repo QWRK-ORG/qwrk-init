@@ -4,6 +4,10 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Badge variants for styling with class-variance-authority
+ * Provides consistent badge styling across the application
+ */
 const badgeVariants = cva(
   "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
   {
@@ -25,13 +29,51 @@ const badgeVariants = cva(
   }
 )
 
+/**
+ * Badge component for displaying status, labels, or counts
+ * Available in multiple variants for different visual emphasis
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Badge>New</Badge>
+ * ```
+ *
+ * @example With variant
+ * ```tsx
+ * <Badge variant="destructive">Deleted</Badge>
+ * ```
+ *
+ * @example As a link
+ * ```tsx
+ * <Badge asChild variant="outline">
+ *   <a href="/categories/new">View all</a>
+ * </Badge>
+ * ```
+ */
 function Badge({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Visual style variant of the badge
+   * @default "default"
+   */
   variant,
+  /**
+   * When true, badge will be rendered as a child component
+   * Useful for rendering badge as a link or other element
+   * @default false
+   */
   asChild = false,
   ...props
 }: React.ComponentProps<"span"> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+  VariantProps<typeof badgeVariants> & {
+    /**
+     * When true, badge will be rendered as a child component
+     */
+    asChild?: boolean
+  }) {
   const Comp = asChild ? Slot : "span"
 
   return (

@@ -5,8 +5,37 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Progress indicator component for displaying loading state or completion percentage
+ * Built on Radix UI Progress primitive
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Progress value={33} />
+ * ```
+ *
+ * @example With aria label and custom styling
+ * ```tsx
+ * <Progress
+ *   value={80}
+ *   aria-label="Loading..."
+ *   className="h-3 w-[300px]"
+ * />
+ * ```
+ *
+ * @example With dynamic progress value
+ * ```tsx
+ * <Progress value={progress} max={100} />
+ * ```
+ */
 function Progress({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Current progress value (0-100)
+   */
   value,
   ...props
 }: React.ComponentProps<typeof ProgressPrimitive.Root>) {

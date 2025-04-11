@@ -6,12 +6,35 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Accordion - A vertically collapsing panel to show/hide content sections
+ * @component
+ * @param props - All properties extended from `@radix-ui/react-accordion`
+ * @example
+ * <Accordion>
+ *  <AccordionItem value="item-1">
+ *   <AccordionTrigger>Is it accessible?</AccordionTrigger>
+ *   <AccordionContent>Yes. It adheres to the WAI-ARIA specifications.</AccordionContent>
+ *  </AccordionItem>
+ * </Accordion>
+ * @see https://radix-ui.com/docs/primitives/components/accordion
+ */
 function Accordion({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   return <AccordionPrimitive.Root data-slot='accordion' {...props} />
 }
 
+/**
+ * AccordionItem - An individual item within an Accordion panel
+ * @component
+ * @param props - All properties extended from `@radix-ui/react-accordion`.  Must be a direct child of `<Accordion>`
+ * @example
+ * <AccordionItem value="item-1">
+ *   <AccordionTrigger>Section Title</AccordionTrigger>
+ *   <AccordionContent>Section Content</AccordionContent>
+ * </AccordionItem>
+ */
 function AccordionItem({
   className,
   ...props
@@ -25,6 +48,16 @@ function AccordionItem({
   )
 }
 
+/**
+ * AccordionTrigger - The clickable title/header for an `AccordionItem` that toggles the content visibility
+ * @component
+ * @param props - All properties extended from `@radix-ui/react-accordion`
+ * @example
+ * <AccordionItem value="item-1">
+ *   <AccordionTrigger>Click to Toggle</AccordionTrigger>
+ *   <AccordionContent>Content to reveal</AccordionContent>
+ * </AccordionItem>
+ */
 function AccordionTrigger({
   className,
   children,
@@ -47,6 +80,16 @@ function AccordionTrigger({
   )
 }
 
+/**
+ * AccordionContent - The expandable content section within an `AccordionItem`
+ * @component
+ * @param props - All properties extended from `@radix-ui/react-accordion`
+ * @example
+ * <AccordionItem value="item-1">
+ *   <AccordionTrigger>Click to Toggle</AccordionTrigger>
+ *   <AccordionContent>This content is revealed when the trigger is clicked.</AccordionContent>
+ * </AccordionItem>
+ */
 function AccordionContent({
   className,
   children,
@@ -63,4 +106,4 @@ function AccordionContent({
   )
 }
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }

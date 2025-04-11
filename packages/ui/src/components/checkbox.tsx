@@ -6,7 +6,27 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Checkbox component built on Radix UI Checkbox primitive
+ * Supports all Radix Checkbox props plus custom styling
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Checkbox id="terms" />
+ * ```
+ *
+ * @example With label
+ * ```tsx
+ * <div className="flex items-center space-x-2">
+ *   <Checkbox id="terms" />
+ *   <label htmlFor="terms">Accept terms and conditions</label>
+ * </div>
+ * ```
+ */
 function Checkbox({
+  /**
+   * Additional CSS class names
+   */
   className,
   ...props
 }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {

@@ -4,6 +4,10 @@ import type * as React from "react"
 
 import { cn } from "@workspace/ui/lib/utils"
 
+/**
+ * Button variants for styling with class-variance-authority
+ * Provides consistent styling for buttons across the application
+ */
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
@@ -35,14 +39,56 @@ const buttonVariants = cva(
   }
 )
 
+/**
+ * Button component with various style variants and sizes
+ * Can be rendered as a different element using the asChild prop
+ *
+ * @example Basic usage
+ * ```tsx
+ * <Button>Click me</Button>
+ * ```
+ *
+ * @example With variant and size
+ * ```tsx
+ * <Button variant="destructive" size="lg">
+ *   Delete
+ * </Button>
+ * ```
+ *
+ * @example As a link
+ * ```tsx
+ * <Button asChild variant="link">
+ *   <a href="/dashboard">Dashboard</a>
+ * </Button>
+ * ```
+ */
 function Button({
+  /**
+   * Additional CSS class names
+   */
   className,
+  /**
+   * Visual style variant of the button
+   * @default "default"
+   */
   variant,
+  /**
+   * Size variant of the button
+   * @default "default"
+   */
   size,
+  /**
+   * When true, button will be rendered as a child component
+   * Useful for rendering button as a link or other element
+   * @default false
+   */
   asChild = false,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
+    /**
+     * When true, button will be rendered as a child component
+     */
     asChild?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
