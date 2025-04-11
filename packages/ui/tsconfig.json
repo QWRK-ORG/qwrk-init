@@ -1,12 +1,15 @@
 {
-    "extends": "@workspace/typescript-config/react-library.json",
-    "compilerOptions": {
-        "types": ["vitest/globals"],
-        "baseUrl": ".",
-        "paths": {
-            "@workspace/ui/*": ["./src/*"]
-        }
-    },
-    "include": [".", "../../apps/web/src/components/navigation/theme-switcher.tsx"],
-    "exclude": ["node_modules", "dist"]
+  "extends": "@workspace/typescript-config/react-library.json",
+  "compilerOptions": {
+    "types": ["vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@workspace/ui/*": ["./src/*"]
+    }
+  },
+  "include": [
+    ".",
+    "../../apps/web/src/components/navigation/theme-switcher.tsx"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

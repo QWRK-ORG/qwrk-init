@@ -1,43 +1,43 @@
 {
-    "name": "qwrk-mono-template",
-    "version": "1.0.0",
-    "description": "Monorepo template",
-    "main": "index.js",
-    "scripts": {
-        "build": "turbo build",
-        "dev": "turbo dev",
-        "lint": "turbo lint",
-        "format": "turbo format",
-        "format:fix": "turbo format:fix",
-        "check-types": "turbo check-types",
-        "fix-types": "turbo fix-types",
-        "clean": "turbo clean && rimraf node_modules",
-        "typecheck": "turbo typecheck",
-        "test": "pnpm run test:unit",
-        "test:unit": "vitest"
-    },
-    "keywords": [],
-    "author": "Ian Cameron Lyles",
-    "license": "ISC",
-    "devDependencies": {
-        "@biomejs/biome": "^1.9.4",
-        "@testing-library/jest-dom": "^6.6.3",
-        "@testing-library/react": "^16.3.0",
-        "@types/react-test-renderer": "^19.1.0",
-        "@vitejs/plugin-react": "^4.3.4",
-        "@vitest/ui": "^3.1.1",
-        "@workspace/typescript-config": "workspace:*",
-        "chalk": "5",
-        "lefthook": "^1.11.8",
-        "react-test-renderer": "^19.1.0",
-        "rimraf": "6.0.1",
-        "turbo": "^2.4.4",
-        "typescript": "^5.7.3",
-        "vite-tsconfig-paths": "^5.1.4",
-        "vitest": "^3.1.1"
-    },
-    "packageManager": "pnpm@10.5.1",
-    "engines": {
-        "node": ">=22.14.0"
-    }
+  "name": "qwrk-mono-template",
+  "version": "1.0.0",
+  "description": "Monorepo template",
+  "main": "index.js",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "format:fix": "turbo format:fix",
+    "check-types": "turbo check-types",
+    "fix-types": "turbo fix-types",
+    "clean": "turbo clean && rimraf node_modules",
+    "typecheck": "turbo typecheck",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest"
+  },
+  "keywords": [],
+  "author": "Ian Cameron Lyles",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/react-test-renderer": "^19.1.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/ui": "^3.1.1",
+    "@workspace/typescript-config": "workspace:*",
+    "chalk": "5",
+    "lefthook": "^1.11.8",
+    "react-test-renderer": "^19.1.0",
+    "rimraf": "6.0.1",
+    "turbo": "^2.4.4",
+    "typescript": "^5.7.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.1.1"
+  },
+  "packageManager": "pnpm@10.5.1",
+  "engines": {
+    "node": ">=22.14.0"
+  }
 }

@@ -1,47 +1,47 @@
 {
-    "$schema": "https://turbo.build/schema.json",
-    "ui": "tui",
-    "tasks": {
-        "build": {
-            "dependsOn": ["^build"],
-            "inputs": ["$TURBO_DEFAULT$", ".env*", ".env.development.local"],
-            "outputs": [".next/**", "!.next/cache/**"]
-        },
-        "start": {
-            "dependsOn": ["^build", "build"],
-            "cache": false,
-            "persistent": true
-        },
-        "check-types": {
-            "dependsOn": ["^build"],
-            "outputs": []
-        },
-        "fix-types": {
-            "dependsOn": ["^build"],
-            "outputs": []
-        },
-        "format": {
-            "dependsOn": ["^build"],
-            "outputs": []
-        },
-        "format:fix": {
-            "dependsOn": ["^build"],
-            "outputs": []
-        },
-        "test": {
-            "outputs": ["coverage/**"],
-            "dependsOn": []
-        },
-        "lint": {
-            "dependsOn": ["^check-types"]
-        },
-        "lint:fix": {
-            "dependsOn": ["^build"]
-        },
-        "dev": {
-            "cache": false,
-            "persistent": true
-        },
-        "clean": {}
-    }
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*", ".env.development.local"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "start": {
+      "dependsOn": ["^build", "build"],
+      "cache": false,
+      "persistent": true
+    },
+    "check-types": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "fix-types": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "format": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "format:fix": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
+    "lint": {
+      "dependsOn": ["^check-types"]
+    },
+    "lint:fix": {
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "clean": {}
+  }
 }

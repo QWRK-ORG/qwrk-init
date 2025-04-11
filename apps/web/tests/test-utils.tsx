@@ -10,35 +10,38 @@ import { vi } from "vitest"
  * @returns The rendered component and utilities
  */
 function render(
-    ui: ReactElement,
-    options: Record<string, unknown> = {}
-): { user: ReturnType<typeof userEvent.setup> } & Omit<ReturnType<typeof rtlRender>, "rerender"> & {
-        rerender: (ui: ReactElement) => void
-    } {
-    const user = userEvent.setup()
-    const result = {
-        user,
-        ...rtlRender(ui, {
-            ...options
-        })
-    }
-    return result
+  ui: ReactElement,
+  options: Record<string, unknown> = {}
+): { user: ReturnType<typeof userEvent.setup> } & Omit<
+  ReturnType<typeof rtlRender>,
+  "rerender"
+> & {
+    rerender: (ui: ReactElement) => void
+  } {
+  const user = userEvent.setup()
+  const result = {
+    user,
+    ...rtlRender(ui, {
+      ...options
+    })
+  }
+  return result
 }
 
 /**
  * Mock Next.js navigation hooks
  */
 vi.mock("next/navigation", () => ({
-    usePathname: vi.fn(() => "/"),
-    useRouter: vi.fn(() => ({
-        push: vi.fn(),
-        replace: vi.fn(),
-        prefetch: vi.fn()
-    })),
-    useSearchParams: vi.fn(() => ({
-        get: vi.fn(),
-        toString: vi.fn(() => "")
-    }))
+  usePathname: vi.fn(() => "/"),
+  useRouter: vi.fn(() => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn()
+  })),
+  useSearchParams: vi.fn(() => ({
+    get: vi.fn(),
+    toString: vi.fn(() => "")
+  }))
 }))
 
 export * from "@testing-library/react"

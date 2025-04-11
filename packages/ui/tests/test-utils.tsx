@@ -5,7 +5,7 @@ import { vi } from "vitest"
 
 // Add an explicit type for the render function result
 type RenderResult = ReturnType<typeof rtlRender> & {
-    user: ReturnType<typeof userEvent.setup>
+  user: ReturnType<typeof userEvent.setup>
 }
 
 /**
@@ -14,30 +14,33 @@ type RenderResult = ReturnType<typeof rtlRender> & {
  * @param options - Additional render options
  * @returns The rendered component and utilities
  */
-function render(ui: ReactElement, options: Record<string, unknown> = {}): RenderResult {
-    const user = userEvent.setup()
-    return {
-        user,
-        ...rtlRender(ui, {
-            ...options
-        })
-    } as RenderResult
+function render(
+  ui: ReactElement,
+  options: Record<string, unknown> = {}
+): RenderResult {
+  const user = userEvent.setup()
+  return {
+    user,
+    ...rtlRender(ui, {
+      ...options
+    })
+  } as RenderResult
 }
 
 /**
  * Mock Next.js navigation hooks
  */
 vi.mock("next/navigation", () => ({
-    usePathname: vi.fn(() => "/"),
-    useRouter: vi.fn(() => ({
-        push: vi.fn(),
-        replace: vi.fn(),
-        prefetch: vi.fn()
-    })),
-    useSearchParams: vi.fn(() => ({
-        get: vi.fn(),
-        toString: vi.fn(() => "")
-    }))
+  usePathname: vi.fn(() => "/"),
+  useRouter: vi.fn(() => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn()
+  })),
+  useSearchParams: vi.fn(() => ({
+    get: vi.fn(),
+    toString: vi.fn(() => "")
+  }))
 }))
 
 export * from "@testing-library/react"

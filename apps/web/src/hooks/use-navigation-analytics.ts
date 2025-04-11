@@ -8,16 +8,16 @@ import { useEffect, useRef } from "react"
  * @interface UseNavigationAnalyticsOptions
  */
 export interface UseNavigationAnalyticsOptions {
-    /**
-     * Function to call when navigation occurs
-     * @param url - The current URL
-     * @param prevUrl - The previous URL (undefined on first render)
-     */
-    onNavigate: (url: string, prevUrl?: string) => void
-    /** Whether to include search params in the URL */
-    includeSearchParams?: boolean
-    /** Whether to track the initial page load */
-    trackInitialPageLoad?: boolean
+  /**
+   * Function to call when navigation occurs
+   * @param url - The current URL
+   * @param prevUrl - The previous URL (undefined on first render)
+   */
+  onNavigate: (url: string, prevUrl?: string) => void
+  /** Whether to include search params in the URL */
+  includeSearchParams?: boolean
+  /** Whether to track the initial page load */
+  trackInitialPageLoad?: boolean
 }
 
 /**
@@ -47,30 +47,36 @@ export interface UseNavigationAnalyticsOptions {
  * ```
  */
 export function useNavigationAnalytics({
-    onNavigate,
-    includeSearchParams = false,
-    trackInitialPageLoad = true
+  onNavigate,
+  includeSearchParams = false,
+  trackInitialPageLoad = true
 }: UseNavigationAnalyticsOptions) {
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
-    const prevUrlRef = useRef<string>()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const prevUrlRef = useRef<string>()
 
-    useEffect(() => {
-        const url =
-            includeSearchParams && searchParams.toString()
-                ? `${pathname}?${searchParams.toString()}`
-                : pathname
+  useEffect(() => {
+    const url =
+      includeSearchParams && searchParams.toString()
+        ? `${pathname}?${searchParams.toString()}`
+        : pathname
 
-        // Skip initial page load if not tracking it
-        if (!trackInitialPageLoad && prevUrlRef.current === undefined) {
-            prevUrlRef.current = url
-            return
-        }
+    // Skip initial page load if not tracking it
+    if (!trackInitialPageLoad && prevUrlRef.current === undefined) {
+      prevUrlRef.current = url
+      return
+    }
 
-        // Call the onNavigate callback with current and previous URLs
-        onNavigate(url, prevUrlRef.current)
+    // Call the onNavigate callback with current and previous URLs
+    onNavigate(url, prevUrlRef.current)
 
-        // Update the previous URL
-        prevUrlRef.current = url
-    }, [pathname, searchParams, onNavigate, includeSearchParams, trackInitialPageLoad])
+    // Update the previous URL
+    prevUrlRef.current = url
+  }, [
+    pathname,
+    searchParams,
+    onNavigate,
+    includeSearchParams,
+    trackInitialPageLoad
+  ])
 }

@@ -10,14 +10,14 @@ import type { ReactNode } from "react"
  * @interface BreadcrumbItemProps
  */
 export interface BreadcrumbItemProps {
-    /** Link href */
-    href?: string
-    /** Whether this is the current page (last item) */
-    isCurrent?: boolean
-    /** Breadcrumb content */
-    children: ReactNode
-    /** Optional CSS classes */
-    className?: string
+  /** Link href */
+  href?: string
+  /** Whether this is the current page (last item) */
+  isCurrent?: boolean
+  /** Breadcrumb content */
+  children: ReactNode
+  /** Optional CSS classes */
+  className?: string
 }
 
 /**
@@ -26,33 +26,33 @@ export interface BreadcrumbItemProps {
  * @returns Breadcrumb item component
  */
 export function BreadcrumbItem({
-    href,
-    isCurrent = false,
-    children,
-    className
+  href,
+  isCurrent = false,
+  children,
+  className
 }: BreadcrumbItemProps) {
-    const content = (
-        <span
-            className={cn(
-                "text-sm",
-                isCurrent ? "font-medium text-foreground" : "text-muted-foreground",
-                className
-            )}
-            aria-current={isCurrent ? "page" : undefined}
-        >
-            {children}
-        </span>
+  const content = (
+    <span
+      className={cn(
+        "text-sm",
+        isCurrent ? "font-medium text-foreground" : "text-muted-foreground",
+        className
+      )}
+      aria-current={isCurrent ? "page" : undefined}
+    >
+      {children}
+    </span>
+  )
+
+  if (href && !isCurrent) {
+    return (
+      <Link href={href} className='hover:text-foreground'>
+        {content}
+      </Link>
     )
+  }
 
-    if (href && !isCurrent) {
-        return (
-            <Link href={href} className='hover:text-foreground'>
-                {content}
-            </Link>
-        )
-    }
-
-    return content
+  return content
 }
 
 /**
@@ -60,15 +60,15 @@ export function BreadcrumbItem({
  * @interface BreadcrumbsProps
  */
 export interface BreadcrumbsProps {
-    /** Breadcrumb items */
-    items: Array<{
-        href?: string
-        label: string
-    }>
-    /** Optional CSS classes */
-    className?: string
-    /** Optional separator element (defaults to ChevronRight) */
-    separator?: ReactNode
+  /** Breadcrumb items */
+  items: Array<{
+    href?: string
+    label: string
+  }>
+  /** Optional CSS classes */
+  className?: string
+  /** Optional separator element (defaults to ChevronRight) */
+  separator?: ReactNode
 }
 
 /**
@@ -77,34 +77,34 @@ export interface BreadcrumbsProps {
  * @returns Breadcrumbs component
  */
 export function Breadcrumbs({
-    items,
-    className,
-    separator = <ChevronRight className='h-4 w-4' />
+  items,
+  className,
+  separator = <ChevronRight className='h-4 w-4' />
 }: BreadcrumbsProps) {
-    return (
-        <nav aria-label='Breadcrumb' className={className}>
-            <ol className='flex items-center space-x-2'>
-                {items.map((item, index) => {
-                    const isLast = index === items.length - 1
-                    // Create a unique key using index and label
-                    const uniqueKey = `breadcrumb-${index}-${item.label.replace(/\s+/g, '-').toLowerCase()}`
+  return (
+    <nav aria-label='Breadcrumb' className={className}>
+      <ol className='flex items-center space-x-2'>
+        {items.map((item, index) => {
+          const isLast = index === items.length - 1
+          // Create a unique key using index and label
+          const uniqueKey = `breadcrumb-${index}-${item.label.replace(/\s+/g, "-").toLowerCase()}`
 
-                    return (
-                        <li key={uniqueKey} className='flex items-center'>
-                            <BreadcrumbItem
-                                href={!isLast ? item.href : undefined}
-                                isCurrent={isLast}
-                            >
-                                {item.label}
-                            </BreadcrumbItem>
+          return (
+            <li key={uniqueKey} className='flex items-center'>
+              <BreadcrumbItem
+                href={!isLast ? item.href : undefined}
+                isCurrent={isLast}
+              >
+                {item.label}
+              </BreadcrumbItem>
 
-                            {!isLast && (
-                                <span className='mx-2 text-muted-foreground'>{separator}</span>
-                            )}
-                        </li>
-                    )
-                })}
-            </ol>
-        </nav>
-    )
+              {!isLast && (
+                <span className='mx-2 text-muted-foreground'>{separator}</span>
+              )}
+            </li>
+          )
+        })}
+      </ol>
+    </nav>
+  )
 }

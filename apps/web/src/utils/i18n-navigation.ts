@@ -4,14 +4,14 @@ import type React from "react"
  * @interface LocalizedNavItem
  */
 export interface LocalizedNavItem {
-    /** Base path without locale prefix */
-    basePath: string
-    /** Translations for the label keyed by locale */
-    labels: Record<string, string>
-    /** Optional icon */
-    icon?: React.ReactNode
-    /** Optional children items */
-    children?: LocalizedNavItem[]
+  /** Base path without locale prefix */
+  basePath: string
+  /** Translations for the label keyed by locale */
+  labels: Record<string, string>
+  /** Optional icon */
+  icon?: React.ReactNode
+  /** Optional children items */
+  children?: LocalizedNavItem[]
 }
 
 /**
@@ -19,14 +19,14 @@ export interface LocalizedNavItem {
  * @interface ProcessedNavItem
  */
 export interface ProcessedNavItem {
-    /** Full href with locale prefix if needed */
-    href: string
-    /** Localized label */
-    label: string
-    /** Optional icon */
-    icon?: React.ReactNode
-    /** Optional children items */
-    children?: ProcessedNavItem[]
+  /** Full href with locale prefix if needed */
+  href: string
+  /** Localized label */
+  label: string
+  /** Optional icon */
+  icon?: React.ReactNode
+  /** Optional children items */
+  children?: ProcessedNavItem[]
 }
 
 /**
@@ -34,12 +34,12 @@ export interface ProcessedNavItem {
  * @interface GenerateLocalizedNavOptions
  */
 export interface GenerateLocalizedNavOptions {
-    /** Current locale */
-    locale: string
-    /** Whether to include the locale prefix in the href */
-    includeLocalePrefix?: boolean
-    /** Default locale (won't have prefix if includeLocalePrefix is true) */
-    defaultLocale?: string
+  /** Current locale */
+  locale: string
+  /** Whether to include the locale prefix in the href */
+  includeLocalePrefix?: boolean
+  /** Default locale (won't have prefix if includeLocalePrefix is true) */
+  defaultLocale?: string
 }
 
 /**
@@ -77,30 +77,35 @@ export interface GenerateLocalizedNavOptions {
  * @returns Localized navigation items ready for use in navigation components
  */
 export function generateLocalizedNav(
-    items: LocalizedNavItem[],
-    options: GenerateLocalizedNavOptions
+  items: LocalizedNavItem[],
+  options: GenerateLocalizedNavOptions
 ): ProcessedNavItem[] {
-    const { locale, includeLocalePrefix = true, defaultLocale = "en" } = options
+  const { locale, includeLocalePrefix = true, defaultLocale = "en" } = options
 
-    return items.map((item) => {
-        // Generate the href with locale prefix if needed
-        const href =
-            includeLocalePrefix && locale !== defaultLocale
-                ? `/${locale}${item.basePath}`
-                : item.basePath
+  return items.map((item) => {
+    // Generate the href with locale prefix if needed
+    const href =
+      includeLocalePrefix && locale !== defaultLocale
+        ? `/${locale}${item.basePath}`
+        : item.basePath
 
-        // Get the label for the current locale, fallback to default locale
-        const label =
-            item.labels[locale] || item.labels[defaultLocale] || Object.values(item.labels)[0] || ""
+    // Get the label for the current locale, fallback to default locale
+    const label =
+      item.labels[locale] ||
+      item.labels[defaultLocale] ||
+      Object.values(item.labels)[0] ||
+      ""
 
-        // Process children recursively if they exist
-        const children = item.children ? generateLocalizedNav(item.children, options) : undefined
+    // Process children recursively if they exist
+    const children = item.children
+      ? generateLocalizedNav(item.children, options)
+      : undefined
 
-        return {
-            href,
-            label,
-            icon: item.icon,
-            ...(children && { children })
-        }
-    })
+    return {
+      href,
+      label,
+      icon: item.icon,
+      ...(children && { children })
+    }
+  })
 }

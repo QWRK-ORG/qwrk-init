@@ -1,11 +1,9 @@
-
 import { Home, Settings } from "lucide-react"
 import { describe, expect, it, vi } from "vitest"
 import { render, screen } from "../../../tests/test-utils"
 import { SidebarNav, SidebarNavItem } from "./sidebar-nav"
 
-
-// Mock the useActivePath hook  
+// Mock the useActivePath hook
 vi.mock("@/hooks/use-active-path", () => ({
   useActivePath: () => (path: string) => path === "/dashboard"
 }))
@@ -22,7 +20,13 @@ describe("SidebarNavItem", () => {
   })
 
   it("renders with icon", () => {
-    render(<SidebarNavItem href='/home' label='Home' icon={<Home data-testid='home-icon' />} />)
+    render(
+      <SidebarNavItem
+        href='/home'
+        label='Home'
+        icon={<Home data-testid='home-icon' />}
+      />
+    )
 
     expect(screen.getByTestId("home-icon")).toBeInTheDocument()
   })
@@ -77,7 +81,13 @@ describe("SidebarNavItem", () => {
   })
 
   it("applies custom className", () => {
-    render(<SidebarNavItem href='/dashboard' label='Dashboard' className='custom-class' />)
+    render(
+      <SidebarNavItem
+        href='/dashboard'
+        label='Dashboard'
+        className='custom-class'
+      />
+    )
 
     const item = screen.getByText("Dashboard").closest("div")?.parentElement
     expect(item).toHaveClass("custom-class")
@@ -86,8 +96,16 @@ describe("SidebarNavItem", () => {
 
 describe("SidebarNav", () => {
   const items = [
-    { href: "/dashboard", label: "Dashboard", icon: <Home data-testid='dashboard-icon' /> },
-    { href: "/settings", label: "Settings", icon: <Settings data-testid='settings-icon' /> }
+    {
+      href: "/dashboard",
+      label: "Dashboard",
+      icon: <Home data-testid='dashboard-icon' />
+    },
+    {
+      href: "/settings",
+      label: "Settings",
+      icon: <Settings data-testid='settings-icon' />
+    }
   ]
 
   it("renders all navigation items", () => {

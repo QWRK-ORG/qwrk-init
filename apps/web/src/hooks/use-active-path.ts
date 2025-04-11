@@ -8,11 +8,11 @@ import { useCallback } from "react"
  * @interface UseActivePathOptions
  */
 export interface UseActivePathOptions {
-    /**
-     * Whether to match exact paths only
-     * If false, will match if the current path starts with the given path
-     */
-    exact?: boolean
+  /**
+   * Whether to match exact paths only
+   * If false, will match if the current path starts with the given path
+   */
+  exact?: boolean
 }
 
 /**
@@ -32,26 +32,28 @@ export interface UseActivePathOptions {
  * @returns A function that checks if a path is active
  */
 export function useActivePath() {
-    const pathname = usePathname()
+  const pathname = usePathname()
 
-    return useCallback(
-        (path: string, options?: UseActivePathOptions) => {
-            // Default exact to true if options is undefined
-            const { exact = true } = options || {}
+  return useCallback(
+    (path: string, options?: UseActivePathOptions) => {
+      // Default exact to true if options is undefined
+      const { exact = true } = options || {}
 
-            // Normalize paths by removing trailing slashes
-            const normalizedPathname = pathname?.endsWith("/") ? pathname.slice(0, -1) : pathname
-            const normalizedPath = path.endsWith("/") ? path.slice(0, -1) : path
+      // Normalize paths by removing trailing slashes
+      const normalizedPathname = pathname?.endsWith("/")
+        ? pathname.slice(0, -1)
+        : pathname
+      const normalizedPath = path.endsWith("/") ? path.slice(0, -1) : path
 
-            if (exact) {
-                return normalizedPathname === normalizedPath
-            }
+      if (exact) {
+        return normalizedPathname === normalizedPath
+      }
 
-            return (
-                normalizedPathname === normalizedPath ||
-                normalizedPathname.startsWith(`${normalizedPath}/`)
-            )
-        },
-        [pathname]
-    )
+      return (
+        normalizedPathname === normalizedPath ||
+        normalizedPathname.startsWith(`${normalizedPath}/`)
+      )
+    },
+    [pathname]
+  )
 }

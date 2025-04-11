@@ -3,9 +3,9 @@
  * This is useful for components that use the ResizeObserver API
  */
 export class MockResizeObserver {
-    observe(): void {}
-    unobserve(): void {}
-    disconnect(): void {}
+  observe(): void {}
+  unobserve(): void {}
+  disconnect(): void {}
 }
 
 /**
@@ -17,9 +17,9 @@ export class MockResizeObserver {
  * @returns The element with the specified attribute
  */
 export function getByAttribute(
-    container: HTMLElement,
-    attribute: string,
-    value: string
+  container: HTMLElement,
+  attribute: string,
+  value: string
 ): HTMLElement | null {
-    return container.querySelector(`[${attribute}="${value}"]`)
+  return container.querySelector(`[${attribute}="${value}"]`)
 }

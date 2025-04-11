@@ -8,10 +8,10 @@ import type { ReactNode } from "react"
  * @interface NavigationWrapperProps
  */
 export interface NavigationWrapperProps {
-    /** Children content to render */
-    children: ReactNode
-    /** Optional CSS classes for the wrapper */
-    className?: string
+  /** Children content to render */
+  children: ReactNode
+  /** Optional CSS classes for the wrapper */
+  className?: string
 }
 
 /**
@@ -19,6 +19,13 @@ export interface NavigationWrapperProps {
  * @param props - Component properties
  * @returns Navigation wrapper component
  */
-export function NavigationWrapper({ children, className }: NavigationWrapperProps) {
-    return <div className={cn("flex min-h-screen flex-col", className)}>{children}</div>
+export function NavigationWrapper({
+  children,
+  className
+}: NavigationWrapperProps) {
+  return (
+    <div className={cn("flex min-h-screen flex-col", className)}>
+      {children}
+    </div>
+  )
 }
